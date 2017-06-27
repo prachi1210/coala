@@ -155,3 +155,96 @@ example:
 
    Rebased on top of changes that are not affected by documentation
    changes.
+
+Guide to Writing Good Reviews
+------------------------
+
+**Before you start writing a review**
+
+-  Familiarize yourself with the context.  Read up on the issue 
+   that is relevant to the proposed PR.
+-  Examine if the code does what it proposes to solves. 
+   For example: If it is a bug, it may be useful to run the code locally 
+   and check if the same exception is thrown up.
+-  Understand the importance of the code and the consequences of failure. 
+   Code reviews must always be done with utmost care.
+
+**While writing a review**
+
+It is important to ask the following questions:
+-  Is the code modular and clean? 
+   Is there any reduntant code?
+-  Would I have done this differently? 
+   If yes, which approach is better? 
+-  Are comments comprehensible? Do they add something to the maintainability of the code?
+-  Have exceptions been used appropriately?
+-  Have common errors been checked and accounted for?
+-  Does the functionality fit the current design?
+-  Is the code unit testable?
+-  Does the code and the commit message comply to coding standards? 
+-  Does the commit message give complete and useful information about the changes under it?
+
+**Things to look out for**
+
+-  Typographic errors: Check for spelling mistakes, typographic errors. Have a look at the code below:
+
+``def foo(self):
+   print("br") #  <---- prnts bar
+``
+This is a classic example of a typographic error.
+
+-  Naming Conventions: Ensure that the code has variable names consistent with code previously written. 
+For example: this_is_example_variable is in line with the naming convention whereas thisIsExampleVariable is not.
+
+-  Docstrings and comments: 
+``Docstrings = How to use code``
+``Comments = Why (rationale) & how code works``
+Docstrings explain how to use code, and are for the users of code. 
+Comments explain why, and are for the maintainers of code. 
+**Make sure comments are not too numerous or verbose.**
+
+- Styling Issues: While a lot of code styling issues are picked out by gitmate,
+keep an eye out for the following:
+
+   1. One statement per line
+
+   ``if(foo): print('bar')`` 
+
+   should be changed to
+
+   ``if(foo):
+         print('bar')
+   ``
+
+   2. Complex loop and conditional constructs
+
+   ``if((complex cond1) and (complex cond2)):
+        foo()
+    `` 
+    should be changed to
+
+   ``t1 = complex cond 1
+     t2 = complex cond 2
+     if(t1 and t2):
+        foo()
+   ``
+-  Return Values: In order to keep a clear intent and sustainable readibility,
+it is preferable to avoid returning values from many output points in the function body. 
+Proper exceptions must be raised when the functio is unable to complete its computation or task.
+
+- Idioms: Pythonic [idioms](http://wiki.c2.com/?ProgrammingIdiom) are simply a way to write python code. 
+Writing Idiomatic code is an acquired programming skill. For more on, pythonic idioms [read this](http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html)
+
+- Code Modularity: An important result of robust code reviews is modular code.
+For eg:
+```
+  if(foo1):
+      if(foo2):
+        bar2()
+  else:
+      if(foo3):
+        bar3()
+      else:
+        bar4()
+```
+can be written in a much simpler way
